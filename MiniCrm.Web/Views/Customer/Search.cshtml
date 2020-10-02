@@ -1,8 +1,29 @@
-﻿@{
+﻿@model MiniCrm.Web.Models.Customer.CustomerSearchModel
+@{
     ViewData["Title"] = "Search Customers";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <form method="post" asp-action="Search">
+        <label asp-for="Search.Name"></label>
+        <input asp-for="Search.Name" />
+
+        <label asp-for="Search.Email"></label>
+        <input asp-for="Search.Email" />
+        <input type="submit" value="Search" />
+    </form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model.Results)
+        {
+            <tr>
+                <td>@customer.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

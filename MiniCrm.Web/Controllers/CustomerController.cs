@@ -6,25 +6,33 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using MiniCrm.Application.Location.Queries;
+using MiniCrm.Application.Location.QueryResults;
 using MiniCrm.Application.Customer.Commands;
 using MiniCrm.Application.Customer.Queries;
 using MiniCrm.Application.Customer.QueryResults;
 using MiniCrm.Web.Models;
+using MiniCrm.Web.Models.Customer;
 
 namespace MiniCrm.Web.Controllers
 {
     public class CustomerController : Controller
     {
         private readonly IRequestHandler<SearchCustomers, IEnumerable<CustomerSearchResult>> searchHandler;
-        private readonly IRequestHandler<AddCustomer> customerHandler;
+        // this feels like a MediatR bug, but IRequestHandler<AddCustomer> is not automatically registered in DI: need to add the Unit (void) response type.
+        private readonly IRequestHandler<AddCustomer, Unit> customerHandler;
+        private readonly IRequestHandler<GetStates, IEnumerable<State>> stateHandler;
 
         public CustomerController(
             IRequestHandler<SearchCustomers, IEnumerable<CustomerSearchResult>> searchHandler,
-            IRequestHandler<AddCustomer> customerHandler)
+            IRequestHandler<AddCustomer, Unit> customerHandler,
+            IRequestHandler<GetStates, IEnumerable<State>> stateHandler)
         {
             this.searchHandler = searchHandler;
             this.customerHandler = customerHandler;
+            this.stateHandler = stateHandler;
         }
 
         [HttpGet]
@@ -41,17 +49,34 @@ namespace MiniCrm.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add(AddCustomerModel model)
         {
-            return View();
+            await InitializeModel(model);
+
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddCustomer model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Add(AddCustomerModel model, CancellationToken cancellationToken)
         {
-            await customerHandler.Handle(model, cancellationToken);
+            // note, the ModelStateValidationFilter (registered globally) would ideally take care of this.
+            // however, it currently just sets the status code.
+            if (!ModelState.IsValid)
+            {
+                return await Add(model);
+            }
+
+            await customerHandler.Handle(model.Customer, cancellationToken);
 
             return RedirectToAction("Search");
+        }
+
+        private async Task InitializeModel(AddCustomerModel model)
+        {
+            // todo: move this into a IRequestHandler or something else?
+            var states = await stateHandler.Handle(new GetStates(), CancellationToken.None);
+            model.States = new[] { new SelectListItem("-Select-", "") } // todo: better place to do this?
+                .Union(states.Select(s => new SelectListItem(s.Name, s.Abbreviation)));
         }
 
         // todo: move elsewhere

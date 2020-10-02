@@ -28,34 +28,14 @@ namespace MiniCrm.Persistence.Customer.QueryHandlers
         {
             var predicate = context.Customers.AsNoTracking();
 
-            if (!string.IsNullOrWhiteSpace(request.Name))
+            if (!string.IsNullOrWhiteSpace(request?.Name))
             {
                 predicate = predicate.Where(c => c.Name.Contains(request.Name));
             }
 
-            if (!string.IsNullOrWhiteSpace(request.Email))
+            if (!string.IsNullOrWhiteSpace(request?.Email))
             {
                 predicate = predicate.Where(c => c.Email == request.Email);
-            }
-
-            if (!string.IsNullOrWhiteSpace(request.PhoneNumber))
-            {
-                predicate = predicate.Where(c => c.PhoneNumber == request.PhoneNumber);
-            }
-
-            if (!string.IsNullOrWhiteSpace(request.City))
-            {
-                predicate = predicate.Where(c => c.City == request.City);
-            }
-
-            if (!string.IsNullOrWhiteSpace(request.State))
-            {
-                predicate = predicate.Where(c => c.State == request.State);
-            }
-
-            if (!string.IsNullOrWhiteSpace(request.PostalCode))
-            {
-                predicate = predicate.Where(c => c.PostalCode == request.PostalCode);
             }
 
             // materialize the results immediately

@@ -24,6 +24,12 @@ namespace MiniCrm.Application.Customer.CommandValidators
             RuleFor(c => c.Email).EmailAddress().MaximumLength(100);
             RuleFor(c => c.Address).NotEmpty().SetValidator(addressValidator);
             RuleFor(c => c.Phone).NotEmpty().SetValidator(phoneValidator);
+
+            // we need to have at least one major piece of information about the customer
+            RuleFor(c => c).Must(c => !string.IsNullOrWhiteSpace(c.Name)
+                || !string.IsNullOrWhiteSpace(c.Email)
+                || !string.IsNullOrWhiteSpace(c.Phone.Number))
+                .WithMessage("Name, Email, or Phone Number must be given.");
         }
 
         public class CustomerAddressValidator : AbstractValidator<Address>

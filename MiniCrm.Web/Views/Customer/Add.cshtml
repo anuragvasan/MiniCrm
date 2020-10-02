@@ -1,5 +1,47 @@
-﻿@{
+﻿@model MiniCrm.Web.Models.Customer.AddCustomerModel
+@{
     ViewData["Title"] = "Add Customer";
 }
 <h1>@ViewData["Title"]</h1>
 
+<div asp-validation-summary="All"></div>
+
+<form method="post">
+    <label asp-for="Customer.Name"></label>
+    <input asp-for="Customer.Name" />
+    <span asp-validation-for="Customer.Name"></span>
+
+    <label asp-for="Customer.Email"></label>
+    <input asp-for="Customer.Email" />
+    <span asp-validation-for="Customer.Email"></span>
+
+    <label asp-for="Customer.Phone.Number"></label>
+    <input asp-for="Customer.Phone.Number" />
+    <span asp-validation-for="Customer.Phone.Number"></span>
+
+    <label asp-for="Customer.Phone.Extension"></label>
+    <input asp-for="Customer.Phone.Extension" />
+    <span asp-validation-for="Customer.Phone.Extension"></span>
+
+    <label asp-for="Customer.Address.Line1"></label>
+    <input asp-for="Customer.Address.Line1" />
+    <span asp-validation-for="Customer.Address.Line1"></span>
+
+    <label asp-for="Customer.Address.Line2"></label>
+    <input asp-for="Customer.Address.Line2" />
+    <span asp-validation-for="Customer.Address.Line2"></span>
+
+    <label asp-for="Customer.Address.City"></label>
+    <input asp-for="Customer.Address.City" />
+    <span asp-validation-for="Customer.Address.City"></span>
+
+    <select asp-for="Customer.Address.State" asp-items="Model.States"></select>
+    <input asp-for="Customer.Address.State" />
+    <span asp-validation-for="Customer.Address.State"></span>
+
+    <label asp-for="Customer.Address.PostalCode"></label>
+    <input asp-for="Customer.Address.PostalCode" />
+    <span asp-validation-for="Customer.Address.PostalCode"></span>
+
+    <input type="submit" value="Submit" />
+</form>
