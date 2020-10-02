@@ -6,4 +6,16 @@
     <RootNamespace>MiniCrm.Web</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="MediatR" Version="8.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MiniCrm.Application\MiniCrm.Application.csproj" />
+    <ProjectReference Include="..\MiniCrm.DataModel\MiniCrm.DataModel.csproj" />
+    <ProjectReference Include="..\MiniCrm.Persistence\MiniCrm.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

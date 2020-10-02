@@ -2,11 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MiniCrm.Persistence.Customer.CommandHandlers;
+using MiniCrm.Persistence.Customer.MapperProfiles;
 
 namespace MiniCrm.Web
 {
@@ -23,6 +27,10 @@ namespace MiniCrm.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            // load mediatr handlers from MiniCrm.Persistence assembly
+            services.AddMediatR(typeof(PersistCustomer));
+            // load automapper profiles from MiniCrm.Persistence assembly
+            services.AddAutoMapper(typeof(AddCustomerProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +54,7 @@ namespace MiniCrm.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Customer}/{action=Search}");
             });
         }
     }

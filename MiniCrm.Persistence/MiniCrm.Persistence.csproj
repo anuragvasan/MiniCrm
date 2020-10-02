@@ -4,4 +4,15 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="MediatR" Version="8.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MiniCrm.Application\MiniCrm.Application.csproj" />
+    <ProjectReference Include="..\MiniCrm.DataModel\MiniCrm.DataModel.csproj" />
+  </ItemGroup>
+
 </Project>
