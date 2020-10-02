@@ -20,8 +20,8 @@ namespace MiniCrm.Application.Customer.CommandValidators
             // (eg via SetValidator<T> method), so we must proxy them through.
             // https://github.com/FluentValidation/FluentValidation/issues/472
 
-            RuleFor(c => c.Name).NotEmpty().MaximumLength(100);
-            RuleFor(c => c.Email).NotEmpty().EmailAddress().MaximumLength(100);
+            RuleFor(c => c.Name).MaximumLength(100);
+            RuleFor(c => c.Email).EmailAddress().MaximumLength(100);
             RuleFor(c => c.Address).NotEmpty().SetValidator(addressValidator);
             RuleFor(c => c.Phone).NotEmpty().SetValidator(phoneValidator);
         }
@@ -30,11 +30,11 @@ namespace MiniCrm.Application.Customer.CommandValidators
         {
             public CustomerAddressValidator()
             {
-                RuleFor(a => a.Line1).NotEmpty().MaximumLength(100);
-                RuleFor(a => a.Line2).NotEmpty().MaximumLength(100);
-                RuleFor(a => a.City).NotEmpty().MaximumLength(100);
-                RuleFor(a => a.State).NotEmpty().MaximumLength(2);
-                RuleFor(a => a.PostalCode).NotEmpty().MaximumLength(10).Matches(@"^\d{5}(-\d{4})?$");
+                RuleFor(a => a.Line1).MaximumLength(100);
+                RuleFor(a => a.Line2).MaximumLength(100);
+                RuleFor(a => a.City).MaximumLength(100);
+                RuleFor(a => a.State).MaximumLength(2);
+                RuleFor(a => a.PostalCode).MaximumLength(10).Matches(@"^\d{5}(-\d{4})?$");
             }
         }
 
@@ -42,7 +42,7 @@ namespace MiniCrm.Application.Customer.CommandValidators
         {
             public CustomerPhoneNumberValidator()
             {
-                RuleFor(c => c.Number).NotEmpty().MaximumLength(20); // consider format validation
+                RuleFor(c => c.Number).MaximumLength(20); // consider format validation
                 RuleFor(c => c.Extension).MaximumLength(10).Matches(@"^\d*$");
             }
         }

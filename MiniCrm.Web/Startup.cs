@@ -6,9 +6,11 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MiniCrm.DataModel;
 using MiniCrm.Persistence.Customer.CommandHandlers;
 using MiniCrm.Persistence.Customer.MapperProfiles;
 
@@ -31,6 +33,8 @@ namespace MiniCrm.Web
             services.AddMediatR(typeof(PersistCustomer));
             // load automapper profiles from MiniCrm.Persistence assembly
             services.AddAutoMapper(typeof(AddCustomerProfile));
+            services.AddDbContext<CrmContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("Crm")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
