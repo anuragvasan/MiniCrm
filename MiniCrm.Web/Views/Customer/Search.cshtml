@@ -3,27 +3,62 @@
     ViewData["Title"] = "Search Customers";
 }
 
-    <form method="post" asp-action="Search">
-        <label asp-for="Search.Name"></label>
-        <input asp-for="Search.Name" />
+<h1>Search Customers</h1>
+<form method="post" asp-action="Search" class="form-inline bg-light p-4 rounded my-4">
+    <div class="form-row">
+        <label asp-for="Search.Name" class="mr-2"></label>
+        <input asp-for="Search.Name" class="mr-2 form-control" />
+        <label asp-for="Search.Email" class="mr-2"></label>
+        <input asp-for="Search.Email" class="mr-2 form-control" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+</form>
 
-        <label asp-for="Search.Email"></label>
-        <input asp-for="Search.Email" />
-        <input type="submit" value="Search" />
-    </form>
-
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var customer in Model.Results)
-        {
+@if (Model.Results.Any())
+{
+    <table class="table table-striped table-borderless">
+        <thead>
             <tr>
-                <td>@customer.Name</td>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model.Results)
+            {
+                <tr>
+                    <td class="align-middle">@customer.Name</td>
+                    <td class="align-middle">@customer.Email</td>
+                    <td class="align-middle">
+                        @customer.Phone.Number
+                        @if (!string.IsNullOrWhiteSpace(customer.Phone.Extension))
+                        {
+                            <text>x</text>@customer.Phone.Extension
+                        }
+                    </td>
+                    <td class="align-middle">
+                        @if (!string.IsNullOrWhiteSpace(customer.Address.Line1))
+                        {
+                            @customer.Address.Line1<br />
+                        }
+                        @if (!string.IsNullOrWhiteSpace(customer.Address.Line2))
+                        {
+                            @customer.Address.Line2<br />
+                        }
+                        @customer.Address.City @customer.Address.State @customer.Address.PostalCode
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (Model.SearchPerformed)
+{
+    <div class="alert alert-info">
+        <div class="d-flex justify-content-center">
+            No customers matched your search.
+        </div>
+    </div>
+}

@@ -1,2 +1,18 @@
 ﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+@* Override default validation class names to match Bootstrap 4.*@
+<script>
+    var settings = {
+        validClass: "is-valid",
+        errorElementClass: 'is-invalid',
+        errorClass: "invalid-feedback",
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass(this.settings.errorElementClass);
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass(this.settings.errorElementClass);
+        }
+    };
+    $.validator.setDefaults(settings);
+    $.validator.unobtrusive.options = settings;
+</script>

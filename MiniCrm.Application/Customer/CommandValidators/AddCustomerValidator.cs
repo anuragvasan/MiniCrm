@@ -15,7 +15,8 @@ namespace MiniCrm.Application.Customer.CommandValidators
     /// </summary>
     public class AddCustomerValidator : AbstractValidator<AddCustomer>
     {
-        public AddCustomerValidator(AbstractValidator<Address> addressValidator, AbstractValidator<PhoneNumber> phoneValidator)
+        public AddCustomerValidator(AbstractValidator<Address> addressValidator, 
+            AbstractValidator<PhoneNumber> phoneValidator)
         {
             // note: Fluent validation cannot obtain child validators from DI directly
             // (eg via SetValidator<T> method), so we must proxy them through.
@@ -29,7 +30,7 @@ namespace MiniCrm.Application.Customer.CommandValidators
             // we need to have at least one major piece of information about the customer
             RuleFor(c => c).Must(c => !string.IsNullOrWhiteSpace(c.Name)
                 || !string.IsNullOrWhiteSpace(c.Email)
-                || !string.IsNullOrWhiteSpace(c.Phone.Number))
+                || !string.IsNullOrWhiteSpace(c.Phone?.Number))
                 .WithMessage("Name, Email, or Phone Number must be given.");
         }
 
@@ -42,6 +43,19 @@ namespace MiniCrm.Application.Customer.CommandValidators
                 RuleFor(a => a.City).MaximumLength(100);
                 RuleFor(a => a.State).MaximumLength(2);
                 RuleFor(a => a.PostalCode).MaximumLength(10).Matches(@"^\d{5}(-\d{4})?$");
+
+                // when any address component is given, full information is required.
+                When(a => !string.IsNullOrWhiteSpace(a.Line1)
+                    || !string.IsNullOrWhiteSpace(a.Line2)
+                    || !string.IsNullOrWhiteSpace(a.City)
+                    || !string.IsNullOrWhiteSpace(a.State)
+                    || !string.IsNullOrWhiteSpace(a.PostalCode), () =>
+                    {
+                        RuleFor(a => a.Line1).NotEmpty();
+                        RuleFor(a => a.City).NotEmpty();
+                        RuleFor(a => a.State).NotEmpty();
+                        RuleFor(a => a.PostalCode).NotEmpty();
+                    });
             }
         }
 
@@ -49,7 +63,7 @@ namespace MiniCrm.Application.Customer.CommandValidators
         {
             public CustomerPhoneNumberValidator()
             {
-                RuleFor(c => c.Number).MaximumLength(20); // consider format validation
+                RuleFor(c => c.Number).MaximumLength(20); // todo: consider format validation.  client-side masking?
                 RuleFor(c => c.Extension).MaximumLength(10).Matches(@"^\d*$");
             }
         }

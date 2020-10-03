@@ -15,9 +15,12 @@ using MiniCrm.Application.Customer.Queries;
 using MiniCrm.Application.Customer.QueryResults;
 using MiniCrm.Web.Models;
 using MiniCrm.Web.Models.Customer;
+using MiniCrm.Web.Filters;
 
 namespace MiniCrm.Web.Controllers
 {
+    // todo: split into separate controllers?
+    [AutoValidateAntiforgeryToken]
     public class CustomerController : Controller
     {
         private readonly IRequestHandler<SearchCustomers, IEnumerable<CustomerSearchResult>> searchHandler;
@@ -34,16 +37,29 @@ namespace MiniCrm.Web.Controllers
             this.stateHandler = stateHandler;
         }
 
+        /// <summary>
+        /// Display the customer search form and results.
+        /// Handles both GET and POST requests, meaning that searches can be linked to via query string, eg http://localhost:59778/?search.name=john
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
         [HttpPost]
         public async Task<IActionResult> Search(CustomerSearchModel model, CancellationToken cancellationToken)
         {
+            if (!model.Search.HasAnyParameters())
+            {
+                return View(model);
+            }
+
             var results = await searchHandler.Handle(model.Search, cancellationToken);
 
             return View(new CustomerSearchModel
             {
                 Search = model.Search,
-                Results = results
+                Results = results,
+                SearchPerformed = true,
             });
         }
 

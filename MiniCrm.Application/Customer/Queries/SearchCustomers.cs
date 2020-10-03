@@ -13,5 +13,12 @@ namespace MiniCrm.Application.Customer.Queries
     {
         public string Name { get; set; }
         public string Email { get; set; }
+
+        /// <summary>
+        /// Indicates whether any search parametered were provided by the user.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAnyParameters() => !string.IsNullOrWhiteSpace(Name) 
+            || !string.IsNullOrWhiteSpace(Email);
     }
 }

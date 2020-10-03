@@ -17,6 +17,8 @@ using MiniCrm.DataModel;
 using MiniCrm.Persistence.Customer.CommandHandlers;
 using MiniCrm.Persistence.Customer.MapperProfiles;
 using MiniCrm.Web.Filters;
+using MiniCrm.Web.ModelInitializer;
+using MiniCrm.Web.Models.Customer;
 
 namespace MiniCrm.Web
 {
@@ -52,7 +54,7 @@ namespace MiniCrm.Web
 
             services.AddMediatR(
                 typeof(PersistCustomer).Assembly, // MiniCrm.Persistence
-                typeof(Application.Customer.Commands.AddCustomer).Assembly); // MiniCrm.Application
+                typeof(AddCustomer).Assembly); // MiniCrm.Application
             services.AddAutoMapper(typeof(AddCustomerProfile).Assembly); // MiniCrm.Application
 
             services.AddDbContext<CrmContext>(options =>

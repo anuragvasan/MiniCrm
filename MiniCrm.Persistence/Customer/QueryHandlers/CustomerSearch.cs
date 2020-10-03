@@ -38,7 +38,7 @@ namespace MiniCrm.Persistence.Customer.QueryHandlers
 
             if (!string.IsNullOrWhiteSpace(request?.Email))
             {
-                predicate = predicate.Where(c => c.Email == request.Email);
+                predicate = predicate.Where(c => c.Email.Contains(request.Email));
             }
 
             // materialize the results immediately
