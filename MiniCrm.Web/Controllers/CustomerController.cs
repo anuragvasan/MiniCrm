@@ -21,13 +21,12 @@ namespace MiniCrm.Web.Controllers
     public class CustomerController : Controller
     {
         private readonly IRequestHandler<SearchCustomers, IEnumerable<CustomerSearchResult>> searchHandler;
-        // this feels like a MediatR bug, but IRequestHandler<AddCustomer> is not automatically registered in DI: need to add the Unit (void) response type.
-        private readonly IRequestHandler<AddCustomer, Unit> customerHandler;
+        private readonly IRequestHandler<AddCustomer> customerHandler;
         private readonly IRequestHandler<GetStates, IEnumerable<State>> stateHandler;
 
         public CustomerController(
             IRequestHandler<SearchCustomers, IEnumerable<CustomerSearchResult>> searchHandler,
-            IRequestHandler<AddCustomer, Unit> customerHandler,
+            IRequestHandler<AddCustomer> customerHandler,
             IRequestHandler<GetStates, IEnumerable<State>> stateHandler)
         {
             this.searchHandler = searchHandler;
@@ -49,34 +48,19 @@ namespace MiniCrm.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add(AddCustomerModel model)
+        [InitializeModel]
+        public IActionResult Add(AddCustomerModel model)
         {
-            await InitializeModel(model);
-
             return View(model);
         }
 
         [HttpPost]
+        [InitializeModel]
         public async Task<IActionResult> Add(AddCustomerModel model, CancellationToken cancellationToken)
         {
-            // note, the ModelStateValidationFilter (registered globally) would ideally take care of this.
-            // however, it currently just sets the status code.
-            if (!ModelState.IsValid)
-            {
-                return await Add(model);
-            }
-
             await customerHandler.Handle(model.Customer, cancellationToken);
 
             return RedirectToAction("Search");
-        }
-
-        private async Task InitializeModel(AddCustomerModel model)
-        {
-            // todo: move this into a IRequestHandler or something else?
-            var states = await stateHandler.Handle(new GetStates(), CancellationToken.None);
-            model.States = new[] { new SelectListItem("-Select-", "") } // todo: better place to do this?
-                .Union(states.Select(s => new SelectListItem(s.Name, s.Abbreviation)));
         }
 
         // todo: move elsewhere

@@ -32,9 +32,10 @@ namespace MiniCrm.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews(o =>
-                {
-                    o.Filters.Add<ModelStateValidationFilter>();
+            var mvcBuilder = services.AddControllersWithViews(o =>
+            {
+                o.Filters.Add<ModelInitializerFilter>(0);
+                o.Filters.Add<ModelStateValidationFilter>(1);
                 })
                 .AddFluentValidation(c =>
                 {
@@ -58,6 +59,12 @@ namespace MiniCrm.Web
 
             // it seems that validators used as child validators need to be registered explicitly - AddFluentValidation's RegisterValidatorsFromAssembly isn't sufficient
             services.AddTransient<FluentValidation.AbstractValidator<AddCustomer>, AddCustomerValidator>();
+
+            // this feels like a MediatR bug, but IRequestHandler<AddCustomer> is not automatically registered in DI.
+            // however, IRequestHandler<AddCustomer, Unit> (which represents a void return type) is.
+            services.AddTransient<IRequestHandler<AddCustomer>, PersistCustomer>();
+
+            services.AddTransient<IModelInitializer<AddCustomerModel>, AddCustomerModelInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
