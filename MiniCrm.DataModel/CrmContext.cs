@@ -15,6 +15,7 @@ namespace MiniCrm.DataModel
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // initializes the database with a sample customer.
             modelBuilder.Entity<Customer>().HasData(
                 new Customer
                 {

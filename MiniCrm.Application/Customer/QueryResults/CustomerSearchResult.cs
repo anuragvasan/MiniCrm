@@ -5,6 +5,9 @@ using System.Text;
 
 namespace MiniCrm.Application.Customer.QueryResults
 {
+    /// <summary>
+    /// Data returned by the SearchCustomers query.
+    /// </summary>
     public class CustomerSearchResult
     {
         public Guid Id { get; set; }

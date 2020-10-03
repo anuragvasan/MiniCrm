@@ -6,6 +6,9 @@ using System.Text;
 
 namespace MiniCrm.Application.Customer.Commands
 {
+    /// <summary>
+    /// A command to add a customer to the CRM.
+    /// </summary>
     public class AddCustomer : IRequest
     {
         public string Name { get; set; }

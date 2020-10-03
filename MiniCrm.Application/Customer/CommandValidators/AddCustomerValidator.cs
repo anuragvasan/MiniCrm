@@ -8,9 +8,10 @@ using System.Text;
 namespace MiniCrm.Application.Customer.CommandValidators
 {
     /// <summary>
-    /// Defines basic validation rules for adding a customer.  The Address and PhoneNumber
-    /// are validated specifically in the context of a Customer, in case these types might 
-    /// have different rules in other contexts in the future.
+    /// Defines validation rules for adding a customer.
+    /// The Address and PhoneNumber are validated specifically 
+    /// in the context of a Customer, in case these types might 
+    /// have different rules in other contexts.
     /// </summary>
     public class AddCustomerValidator : AbstractValidator<AddCustomer>
     {

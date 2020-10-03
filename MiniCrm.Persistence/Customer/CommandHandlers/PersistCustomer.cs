@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace MiniCrm.Persistence.Customer.CommandHandlers
 {
+    /// <summary>
+    /// Saves a new customer to the database.
+    /// </summary>
     public class PersistCustomer : AsyncRequestHandler<AddCustomer>
     {
         private readonly CrmContext context;
@@ -23,6 +26,7 @@ namespace MiniCrm.Persistence.Customer.CommandHandlers
 
         protected override async Task Handle(AddCustomer request, CancellationToken cancellationToken)
         {
+            // map from the Command data to the EF entity.
             var entity = mapper.Map<DataModel.Customer>(request);
 
             context.Customers.Add(entity);

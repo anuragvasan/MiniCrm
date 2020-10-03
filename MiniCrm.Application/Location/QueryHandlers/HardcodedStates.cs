@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace MiniCrm.Application.Location.QueryHandlers
 {
+    /// <summary>
+    /// Basic hard-coded implementation of the GetStates query.
+    /// </summary>
     public class HardcodedStates : IRequestHandler<GetStates, IEnumerable<State>>
     {
         public Task<IEnumerable<State>> Handle(GetStates request, CancellationToken cancellationToken)

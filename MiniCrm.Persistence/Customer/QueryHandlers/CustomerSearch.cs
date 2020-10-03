@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace MiniCrm.Persistence.Customer.QueryHandlers
 {
+    /// <summary>
+    /// Performs basic "contains" search for customers via the database.
+    /// </summary>
     public class CustomerSearch : IRequestHandler<SearchCustomers, IEnumerable<CustomerSearchResult>>
     {
         private readonly CrmContext context;

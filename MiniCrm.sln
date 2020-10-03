@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniCrm.Application", "Mini
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniCrm.Persistence", "MiniCrm.Persistence\MiniCrm.Persistence.csproj", "{F0BB13D3-BEA1-42D6-A7B3-04DA266AFE62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniCrm.DataModel", "MiniCrm.DataModel\MiniCrm.DataModel.csproj", "{EDDC860A-E217-4BEA-B846-3AB0E03D2CE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniCrm.DataModel", "MiniCrm.DataModel\MiniCrm.DataModel.csproj", "{EDDC860A-E217-4BEA-B846-3AB0E03D2CE6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0338FEEC-9DC6-4A9D-88B7-39B8236B7033}"
+	ProjectSection(SolutionItems) = preProject
+		readme.txt = readme.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

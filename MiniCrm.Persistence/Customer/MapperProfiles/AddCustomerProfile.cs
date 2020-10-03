@@ -8,6 +8,9 @@ using System.Text;
 
 namespace MiniCrm.Persistence.Customer.MapperProfiles
 {
+    /// <summary>
+    /// Enables mapping a AddCustomer command to the Customer EF entity.
+    /// </summary>
     public class AddCustomerProfile : Profile
     {
         public AddCustomerProfile()

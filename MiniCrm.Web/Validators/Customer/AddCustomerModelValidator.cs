@@ -8,10 +8,14 @@ using System.Threading.Tasks;
 
 namespace MiniCrm.Web.Validators.Customer
 {
+    /// <summary>
+    /// View model validator for adding a customer.
+    /// </summary>
     public class AddCustomerModelValidator : AbstractValidator<AddCustomerModel>
     {
         public AddCustomerModelValidator(AbstractValidator<AddCustomer> addCustomerValidator)
         {
+            // this just delegates to the Comamnd validator itself.
             RuleFor(m => m.Customer).SetValidator(addCustomerValidator);
         }
     }

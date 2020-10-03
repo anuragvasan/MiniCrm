@@ -7,6 +7,9 @@ using System.Text;
 
 namespace MiniCrm.Persistence.Customer.MapperProfiles
 {
+    /// <summary>
+    /// Enables mapping an EF customer entity to a search query result.
+    /// </summary>
     public class CustomerSearchResultProfile : Profile
     {
         public CustomerSearchResultProfile()
