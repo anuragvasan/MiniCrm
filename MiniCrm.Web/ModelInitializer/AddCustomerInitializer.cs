@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MiniCrm.Application.Location.Queries;
-using MiniCrm.Application.Location.QueryResults;
 using MiniCrm.Web.Models.Customer;
 using System;
 using System.Collections.Generic;
@@ -16,9 +15,9 @@ namespace MiniCrm.Web.ModelInitializer
     /// </summary>
     public class AddCustomerModelInitializer : IModelInitializer<AddCustomerModel>
     {
-        private readonly IRequestHandler<GetStates, IEnumerable<State>> stateHandler;
+        private readonly IRequestHandler<GetStates, IEnumerable<GetStates.State>> stateHandler;
 
-        public AddCustomerModelInitializer(IRequestHandler<GetStates, IEnumerable<State>> stateHandler)
+        public AddCustomerModelInitializer(IRequestHandler<GetStates, IEnumerable<GetStates.State>> stateHandler)
         {
             this.stateHandler = stateHandler;
         }

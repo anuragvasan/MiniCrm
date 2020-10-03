@@ -9,10 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using MiniCrm.Application.Location.Queries;
-using MiniCrm.Application.Location.QueryResults;
 using MiniCrm.Application.Customer.Commands;
 using MiniCrm.Application.Customer.Queries;
-using MiniCrm.Application.Customer.QueryResults;
 using MiniCrm.Web.Models;
 using MiniCrm.Web.Models.Customer;
 using MiniCrm.Web.Filters;
@@ -23,14 +21,14 @@ namespace MiniCrm.Web.Controllers
     [AutoValidateAntiforgeryToken]
     public class CustomerController : Controller
     {
-        private readonly IRequestHandler<SearchCustomers, IEnumerable<CustomerSearchResult>> searchHandler;
+        private readonly IRequestHandler<SearchCustomers, IEnumerable<SearchCustomers.CustomerSearchResult>> searchHandler;
         private readonly IRequestHandler<AddCustomer> customerHandler;
-        private readonly IRequestHandler<GetStates, IEnumerable<State>> stateHandler;
+        private readonly IRequestHandler<GetStates, IEnumerable<GetStates.State>> stateHandler;
 
         public CustomerController(
-            IRequestHandler<SearchCustomers, IEnumerable<CustomerSearchResult>> searchHandler,
+            IRequestHandler<SearchCustomers, IEnumerable<SearchCustomers.CustomerSearchResult>> searchHandler,
             IRequestHandler<AddCustomer> customerHandler,
-            IRequestHandler<GetStates, IEnumerable<State>> stateHandler)
+            IRequestHandler<GetStates, IEnumerable<GetStates.State>> stateHandler)
         {
             this.searchHandler = searchHandler;
             this.customerHandler = customerHandler;

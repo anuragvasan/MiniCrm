@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MiniCrm.Application.Customer.QueryResults;
+using MiniCrm.Application.Customer.Queries;
 using MiniCrm.DataModel;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace MiniCrm.Persistence.Customer.MapperProfiles
     {
         public CustomerSearchResultProfile()
         {
-            this.CreateMap<DataModel.Customer, CustomerSearchResult>()
+            this.CreateMap<DataModel.Customer, SearchCustomers.CustomerSearchResult>()
                 .ForPath(dest => dest.Address.Line1, cfg => cfg.MapFrom(src => src.AddressLine1))
                 .ForPath(dest => dest.Address.Line2, cfg => cfg.MapFrom(src => src.AddressLine2))
                 .ForPath(dest => dest.Address.City, cfg => cfg.MapFrom(src => src.City))

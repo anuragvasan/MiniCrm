@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MiniCrm.Application.Customer.Queries;
-using MiniCrm.Application.Customer.QueryResults;
 using MiniCrm.DataModel;
 using System;
 using System.Collections.Generic;
@@ -16,7 +15,7 @@ namespace MiniCrm.Persistence.Customer.QueryHandlers
     /// <summary>
     /// Performs basic "contains" search for customers via the database.
     /// </summary>
-    public class CustomerSearch : IRequestHandler<SearchCustomers, IEnumerable<CustomerSearchResult>>
+    public class CustomerSearch : IRequestHandler<SearchCustomers, IEnumerable<SearchCustomers.CustomerSearchResult>>
     {
         private readonly CrmContext context;
         private readonly IMapper mapper;
@@ -27,7 +26,7 @@ namespace MiniCrm.Persistence.Customer.QueryHandlers
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<CustomerSearchResult>> Handle(SearchCustomers request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SearchCustomers.CustomerSearchResult>> Handle(SearchCustomers request, CancellationToken cancellationToken)
         {
             var predicate = context.Customers.AsNoTracking();
 
@@ -44,7 +43,7 @@ namespace MiniCrm.Persistence.Customer.QueryHandlers
             // materialize the results immediately
             var results = await predicate.ToListAsync(cancellationToken);
 
-            return results.Select(mapper.Map<CustomerSearchResult>);
+            return results.Select(mapper.Map<SearchCustomers.CustomerSearchResult>);
         }
     }
 }

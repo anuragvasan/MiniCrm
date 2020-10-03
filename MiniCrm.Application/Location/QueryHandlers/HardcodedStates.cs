@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using MiniCrm.Application.Location.Queries;
-using MiniCrm.Application.Location.QueryResults;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using static MiniCrm.Application.Location.Queries.GetStates;
 
 namespace MiniCrm.Application.Location.QueryHandlers
 {

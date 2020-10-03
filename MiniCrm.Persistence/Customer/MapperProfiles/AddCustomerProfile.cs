@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MiniCrm.Application.Customer.Commands;
-using MiniCrm.Application.Customer.QueryResults;
 using MiniCrm.DataModel;
 using System;
 using System.Collections.Generic;
