@@ -22,3 +22,7 @@ MiniCrm is flexible with what information is needed in order to store a Customer
 ## Customer Search
 
 - MiniCrm provides basic search functionality for customers by name or email address.  Both searches will return partial results in addition to full matches.
+
+# Known Issues
+
+- Server-side validation errors are not properly styled with Bootstrap 4 UI classes.  Consider this approach: https://stackoverflow.com/a/63208680

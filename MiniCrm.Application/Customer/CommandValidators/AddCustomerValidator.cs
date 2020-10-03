@@ -65,6 +65,11 @@ namespace MiniCrm.Application.Customer.CommandValidators
             {
                 RuleFor(c => c.Number).MaximumLength(20); // todo: consider format validation.  client-side masking?
                 RuleFor(c => c.Extension).MaximumLength(10).Matches(@"^\d*$");
+
+                // when providing an extension, the main line must be provided too.
+                When(c => !string.IsNullOrWhiteSpace(c.Extension), () => {
+                    RuleFor(c => c.Number).NotEmpty();
+                });
             }
         }
     }
