@@ -10,12 +10,13 @@ namespace MiniCrm.Web.Validators.Customer
 {
     /// <summary>
     /// View model validator for adding a customer.
+    /// Note: this is automatically executed by FluentValidation during model binding.
     /// </summary>
     public class AddCustomerModelValidator : AbstractValidator<AddCustomerModel>
     {
         public AddCustomerModelValidator(AbstractValidator<AddCustomer> addCustomerValidator)
         {
-            // this just delegates to the Comamnd validator itself.
+            // this just delegates to the Command validator.
             RuleFor(m => m.Customer).SetValidator(addCustomerValidator);
         }
     }
