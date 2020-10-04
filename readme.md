@@ -2,6 +2,8 @@
 
 MiniCrm is a demo application consisting of basic CRM functionality such as adding and searching for customer information.  The application is written using the ASP.NET Core MVC stack using Entity Framework Core and Bootstrap 4.
 
+A preview is available at: https://web-minicrm-use1.azurewebsites.net/
+
 ## Application Functionality
 
 MiniCrm enables users to add new customers to the system and search for existing customers.  MiniCrm defines a customer as the following data points:
@@ -59,6 +61,25 @@ MiniCrm enables searching existing customers by either Name or Email Address.  P
 - To execute the migration on a local database, run `dotnet ef database update`.
 - Commit both the code-first classes and migrations to source control.
 
+### Azure Deployment
+
+- The demo preview link is deployed to Azure and uses the following:
+  - App Service Plan
+  - App Service
+  - Azure SQL Server
+  - Azure SQL Database
+  - Application Insights (optional)
+- Create the resources above.
+- Link the App Service to the App Insights resource.
+- Update the App Service connection string to the SQL Database.
+- Update firewall rules on the SQL Server to allow Azure resources to connect.
+- To deploy the application, use Visual Studio's "Publish" feature to deploy to the App Service.
+- To deploy the EF migrations to the database:
+  - Update firewall rules on the SQL Server to allow the Client IP to connect.
+  - Update appsettings.json "Crm" connection string.
+  - Run `dotnet ef database update` from the MiniCrm.DataModel directory.
+  - Undo the firewall rule and appsettings.json change.
+
 ## Technology Overview
 
 - **ASP.NET Core MVC** - Provides a modern server-side web application framework with strong HTML templating via Razor, extensibility (eg action filters), and the underlying .NET ecosytem.
@@ -103,3 +124,4 @@ The application code consists of several .NET projects, each encapsulating an ar
 - No client-side package manager or build process for Bootstrap and other front-end assets.  If the front-end UI were to be enhanced further, this would likely be beneficial.  Not really warranted for the current basic UI.
 - There exists duplication of the Customer definition across layers, and AutoMapper profiles are somewhat tedious and error-prone.  This might be improved with some centralized metadata / code-gen, or further use of AutoMapper convention techniques.  However, the value of 
 - The MVC ViewModels have properties representing the Command and Query objects, rather than exposing a clean interface with only the necessary input/output values.  This rather significantly reduces complexity (MiniCrm.Application public contract is "passed through" to/from the UI, rather than adding another set of classes and mapping back and forth.  However, this does result in some oddities such as the AddCustomerModelValidator simply delegating immediately to AddCustomerValidator.  This is required because FluentValidation's ASP.NET integration looks for a validator matching the model type.  Further, the MiniCrm.Application validators are _not_ being run as part of the actual processing pipeline (since this would duplicate what's done at the ASP.NET layer).  This would need to be re-examined if MiniCrm.Application was actually to be used by other/additional presentation layers or use cases.
+- Azure deployment is completely manual.  Introduce Azure DevOps build + release pipeline, with ARM templates.
