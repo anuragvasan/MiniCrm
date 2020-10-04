@@ -15,14 +15,12 @@ namespace MiniCrm.Persistence.Customer.MapperProfiles
         public AddCustomerProfile()
         {
             this.CreateMap<AddCustomer, DataModel.Customer>()
+                .ForMember(dest => dest.Id, cfg => cfg.Ignore())
                 .ForMember(dest => dest.AddressLine1, cfg => cfg.MapFrom(src => src.Address.Line1))
                 .ForMember(dest => dest.AddressLine2, cfg => cfg.MapFrom(src => src.Address.Line2))
-                // todo: consider .IncludeMembers(src => src.Address)
                 .ForMember(dest => dest.City, cfg => cfg.MapFrom(src => src.Address.City))
                 .ForMember(dest => dest.State, cfg => cfg.MapFrom(src => src.Address.State))
-                .ForMember(dest => dest.PostalCode, cfg => cfg.MapFrom(src => src.Address.PostalCode))
-                .ForMember(dest => dest.PhoneNumber, cfg => cfg.MapFrom(src => src.Phone.Number))
-                .ForMember(dest => dest.PhoneExtension, cfg => cfg.MapFrom(src => src.Phone.Extension));
+                .ForMember(dest => dest.PostalCode, cfg => cfg.MapFrom(src => src.Address.PostalCode));
         }
     }
 }
