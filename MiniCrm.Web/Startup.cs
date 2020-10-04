@@ -14,11 +14,9 @@ using Microsoft.Extensions.Hosting;
 using MiniCrm.Application.Customer.Commands;
 using MiniCrm.Application.Customer.CommandValidators;
 using MiniCrm.DataModel;
-using MiniCrm.Persistence.Customer.CommandHandlers;
 using MiniCrm.Persistence.Customer.MapperProfiles;
 using MiniCrm.Web.Filters;
 using MiniCrm.Web.ModelInitializer;
-using MiniCrm.Web.Models.Customer;
 
 namespace MiniCrm.Web
 {
@@ -33,18 +31,24 @@ namespace MiniCrm.Web
         public IConfiguration Configuration { get; }
         public IWebHostEnvironment Env { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry();
+
+            var assemblies = new[] {
+                typeof(Program).Assembly, // MiniCrm.Web
+                typeof(AddCustomer).Assembly, // MiniCrm.Application
+                typeof(AddCustomerProfile).Assembly, // MiniCrm.Persistence
+                typeof(Customer).Assembly }; // MiniCrm.DataModel
+
             var mvcBuilder = services.AddControllersWithViews(o =>
             {
                 o.Filters.Add<ModelInitializerFilter>(0);
                 o.Filters.Add<ModelStateValidationFilter>(1);
-                })
+            })
                 .AddFluentValidation(c =>
                 {
-                    c.RegisterValidatorsFromAssembly(typeof(Startup).Assembly); // MiniCrm.Web
-                    c.RegisterValidatorsFromAssembly(typeof(AddCustomerValidator).Assembly); // MiniCrm.Application
+                    c.RegisterValidatorsFromAssemblies(assemblies);
                 });
 
             if (Env.IsDevelopment())
@@ -52,31 +56,30 @@ namespace MiniCrm.Web
                 mvcBuilder.AddRazorRuntimeCompilation();
             }
 
-            services.AddMediatR(
-                typeof(PersistCustomer).Assembly, // MiniCrm.Persistence
-                typeof(AddCustomer).Assembly); // MiniCrm.Application
-            services.AddAutoMapper(typeof(AddCustomerProfile).Assembly); // MiniCrm.Application
-
             services.AddDbContext<CrmContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Crm")));
 
-            // since its possible we might have multiple contexts for validating basic types like address + phone, 
-            // ideally these would be bound using something like Ninject's .WhenInjectedInto, but .NET Core's DI doesn't support contextual binding.
-            // could introduce Ninject as the underlying container
-            services.AddTransient<FluentValidation.AbstractValidator<Application.ValueObjects.Address>, AddCustomerValidator.CustomerAddressValidator>();
-            services.AddTransient<FluentValidation.AbstractValidator<Application.ValueObjects.PhoneNumber>, AddCustomerValidator.CustomerPhoneNumberValidator>();
+            services.AddMediatR(assemblies);
+            services.AddAutoMapper(assemblies);
 
-            // it seems that validators used as child validators need to be registered explicitly - AddFluentValidation's RegisterValidatorsFromAssembly isn't sufficient
+            services.Scan(scan =>
+                scan.FromAssemblies(assemblies)
+                    .AddClasses(c => c.AssignableTo(typeof(IModelInitializer<>))).AsImplementedInterfaces()
+                    .AddClasses(c => c.AssignableTo(typeof(IPipelineBehavior<,>))).AsImplementedInterfaces());
+
+            // Validators used as child validators need to be registered explicitly.
+            // AddFluentValidation's RegisterValidatorsFromAssembly isn't sufficient to register them.
+            // .NET Core DI doesn't support binding an open generic type: https://stackoverflow.com/a/44991270
             services.AddTransient<FluentValidation.AbstractValidator<AddCustomer>, AddCustomerValidator>();
 
-            // this feels like a MediatR bug, but IRequestHandler<AddCustomer> is not automatically registered in DI.
-            // however, IRequestHandler<AddCustomer, Unit> (which represents a void return type) is.
-            services.AddTransient<IRequestHandler<AddCustomer>, PersistCustomer>();
-
-            services.AddTransient<IModelInitializer<AddCustomerModel>, AddCustomerModelInitializer>();
+            // The following should be contextually injected (eg Ninject's .WhenInjectedInto) into AddCustomerValidator 
+            // (since its possible we might have multiple contexts for validating basic types like address + phone), 
+            // but .NET Core's DI doesn't support that.
+            // Could introduce another underlying container that supports this.
+            services.AddTransient<FluentValidation.AbstractValidator<Application.ValueObjects.Address>, AddCustomerValidator.CustomerAddressValidator>();
+            services.AddTransient<FluentValidation.AbstractValidator<Application.ValueObjects.PhoneNumber>, AddCustomerValidator.CustomerPhoneNumberValidator>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
             if (Env.IsDevelopment())
@@ -85,19 +88,18 @@ namespace MiniCrm.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Index");
             }
+
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Customer}/{action=Search}");
+                    pattern: "{controller=Search}/{action=Search}");
             });
         }
     }

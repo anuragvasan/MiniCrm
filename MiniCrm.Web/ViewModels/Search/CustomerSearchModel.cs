@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MiniCrm.Web.Models.Customer
+namespace MiniCrm.Web.ViewModels.Search
 {
     public class CustomerSearchModel
     {

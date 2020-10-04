@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-controller="Customer" asp-action="Search">MiniCrm</a>
+                <a class="navbar-brand" asp-controller="Search" asp-action="Search">MiniCrm</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,7 +19,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Customer" asp-action="Search">Search</a>
+                            <a class="nav-link text-dark" asp-controller="Search" asp-action="Search">Search</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Customer" asp-action="Add">Add Customer</a>
@@ -32,6 +32,7 @@
     <div class="container">
         <main role="main" class="pb-3">
             <h1>@ViewData["Title"]</h1>
+            @await Html.PartialAsync("TempMessage") 
             @RenderBody()
         </main>
     </div>
@@ -39,7 +40,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @Html.Partial("_ValidationScriptsPartial")
+    @await Html.PartialAsync("_ValidationScriptsPartial")
     @RenderSection("Scripts", required: false)
 </body>
 </html>

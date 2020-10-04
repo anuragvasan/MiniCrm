@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MiniCrm.Application.Customer.Commands;
-using MiniCrm.Web.Models.Customer;
+using MiniCrm.Web.ViewModels.Customer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

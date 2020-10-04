@@ -1,6 +1,6 @@
 using System;
 
-namespace MiniCrm.Web.Models
+namespace MiniCrm.Web.ViewModels.Error
 {
     public class ErrorViewModel
     {

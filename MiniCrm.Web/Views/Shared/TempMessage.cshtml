@@ -1,0 +1,11 @@
+﻿@{
+    Layout = null;
+}
+
+@* Displays a temporary message from the previous request, if any. *@
+@if (!string.IsNullOrWhiteSpace(TempData[MiniCrm.Web.Infrastructure.ControllerExtensions.TemporaryMessageKey] as string))
+{
+    <div class="alert alert-info">
+        @TempData[MiniCrm.Web.Infrastructure.ControllerExtensions.TemporaryMessageKey]
+    </div>
+}
