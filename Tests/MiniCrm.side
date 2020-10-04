@@ -1,0 +1,916 @@
+{
+  "id": "52fff4f0-10bf-47d5-aeff-edba0163967b",
+  "version": "2.0",
+  "name": "MiniCrm",
+  "url": "http://localhost:59778/",
+  "tests": [{
+    "id": "ed402bb2-1f5a-49cb-96b7-b10600fac901",
+    "name": "Homepage Is Customer Search",
+    "commands": [{
+      "id": "e23d3e2c-ba0a-4b98-928c-3f2c9c0d4c37",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3c5bd182-7ccd-46bd-9df0-2094c7fda719",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Search Customers')]", "xpath:innerText"]
+      ],
+      "value": "Search Customers"
+    }, {
+      "id": "7dd9b473-2ce8-4d6e-bfab-d1575135f588",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "823b7585-bdbd-41c5-b6d7-4968c8808a02",
+    "name": "Customer Search - Bad Query - No Results Messaging",
+    "commands": [{
+      "id": "bd6d714e-8386-42de-bb48-ce152a7d3409",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1d91d0cf-f858-4334-9f87-0643d348e143",
+      "comment": "",
+      "command": "click",
+      "target": "id=Search_Name",
+      "targets": [
+        ["id=Search_Name", "id"],
+        ["name=Search.Name", "name"],
+        ["css=#Search_Name", "css:finder"],
+        ["xpath=//input[@id='Search_Name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f76e1446-efa6-4e70-b8d1-1bc7953f6681",
+      "comment": "",
+      "command": "type",
+      "target": "id=Search_Name",
+      "targets": [
+        ["id=Search_Name", "id"],
+        ["name=Search.Name", "name"],
+        ["css=#Search_Name", "css:finder"],
+        ["xpath=//input[@id='Search_Name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "123123123123"
+    }, {
+      "id": "50817bcd-c0f7-40d7-a9a0-552473e09aaf",
+      "comment": "",
+      "command": "click",
+      "target": "css=input[type=submit]",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Search']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7f09117b-d998-41fd-9556-02a3c934fbe4",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.alert-info",
+      "targets": [
+        ["css=.d-flex", "css:finder"],
+        ["xpath=//main/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1eb2a3f8-00a3-46e8-9ad2-8047fb5afb46",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "a4d46eb1-445a-42fe-9696-601c7f526978",
+    "name": "Customer Search - No Query - No Messaging",
+    "commands": [{
+      "id": "ea8973cd-e0f9-476f-88d7-d879034458c5",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b77d238b-1acd-460e-9719-299f79e5bafb",
+      "comment": "",
+      "command": "assertElementNotPresent",
+      "target": "css=.alert-info",
+      "targets": [
+        ["css=.d-flex", "css:finder"],
+        ["xpath=//main/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ad20e78c-dfb5-487c-b6ff-66d300bc3e43",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "4478fb0d-6a78-4bd2-81b0-f49a2c4a6d08",
+    "name": "Customer Search - Full Name - Results",
+    "commands": [{
+      "id": "7a1bb3ba-9b5e-4df7-bc41-019e709307b6",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "966a9020-c712-4be5-a36b-9ef79f56d10b",
+      "comment": "",
+      "command": "type",
+      "target": "id=Search_Name",
+      "targets": [
+        ["id=Search_Name", "id"],
+        ["name=Search.Name", "name"],
+        ["css=#Search_Name", "css:finder"],
+        ["xpath=//input[@id='Search_Name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Test Customer"
+    }, {
+      "id": "c0cec840-ead5-4276-918f-d2b287a1537b",
+      "comment": "",
+      "command": "click",
+      "target": "css=input[type=submit]",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Search']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "34c172e5-2637-4cb3-b9ef-5cbb4354ad59",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=table",
+      "targets": [
+        ["css=.align-middle:nth-child(1)", "css:finder"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Test Customer')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "732b715e-8823-4e9f-aa67-5ebb33478c5b",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(1)",
+      "targets": [
+        ["css=.align-middle:nth-child(1)", "css:finder"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Test Customer')]", "xpath:innerText"]
+      ],
+      "value": "Test Customer"
+    }, {
+      "id": "dedade3d-1e22-4980-86ba-404d3f7d37c1",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(2)",
+      "targets": [
+        ["css=.align-middle:nth-child(2)", "css:finder"],
+        ["xpath=//td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'test.customer@example.com')]", "xpath:innerText"]
+      ],
+      "value": "test.customer@example.com"
+    }, {
+      "id": "76cb3e24-f495-4058-bc9f-30e5d79c80ac",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(3)",
+      "targets": [
+        ["css=.align-middle:nth-child(3)", "css:finder"],
+        ["xpath=//td[3]", "xpath:position"]
+      ],
+      "value": "(123) 123-1234 x1234"
+    }, {
+      "id": "ab0a019d-3cbe-494c-aab3-1d33dda59d3a",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(4)",
+      "targets": [
+        ["css=.align-middle:nth-child(4)", "css:finder"],
+        ["xpath=//td[4]", "xpath:position"]
+      ],
+      "value": "123 Main Street\\nApt 321\\nAnywhere MA 12345"
+    }, {
+      "id": "f41bf3cf-e7ac-4c59-8036-d64b78616353",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "291ebd64-a7d7-4bf5-a6c3-4fd8bc139b11",
+    "name": "Customer Search - Partial Name - Results",
+    "commands": [{
+      "id": "ac853aad-1abf-4f0b-9ecc-084cc30978e4",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5538d141-3664-4435-94b9-fa849f910c62",
+      "comment": "",
+      "command": "type",
+      "target": "id=Search_Name",
+      "targets": [
+        ["id=Search_Name", "id"],
+        ["name=Search.Name", "name"],
+        ["css=#Search_Name", "css:finder"],
+        ["xpath=//input[@id='Search_Name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Cust"
+    }, {
+      "id": "ec5b8c0f-6a5d-46a2-ae3d-9c359e2cb67d",
+      "comment": "",
+      "command": "click",
+      "target": "css=input[type=submit]",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Search']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "aa1ed510-ddb7-4ded-a3db-870aa1f2e362",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=table",
+      "targets": [
+        ["css=.align-middle:nth-child(1)", "css:finder"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Test Customer')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "aa85c129-6a90-498b-b988-fe5a57f4e71f",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(1)",
+      "targets": [
+        ["css=.align-middle:nth-child(1)", "css:finder"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Test Customer')]", "xpath:innerText"]
+      ],
+      "value": "Test Customer"
+    }, {
+      "id": "3dbc5941-f0be-4ae9-902a-de6785f1a4d8",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(2)",
+      "targets": [
+        ["css=.align-middle:nth-child(2)", "css:finder"],
+        ["xpath=//td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'test.customer@example.com')]", "xpath:innerText"]
+      ],
+      "value": "test.customer@example.com"
+    }, {
+      "id": "0812bf83-ec8a-4af7-80d9-22105edc0b47",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(3)",
+      "targets": [
+        ["css=.align-middle:nth-child(3)", "css:finder"],
+        ["xpath=//td[3]", "xpath:position"]
+      ],
+      "value": "(123) 123-1234 x1234"
+    }, {
+      "id": "092b1a1a-9e54-46ed-97af-fb4558620054",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(4)",
+      "targets": [
+        ["css=.align-middle:nth-child(4)", "css:finder"],
+        ["xpath=//td[4]", "xpath:position"]
+      ],
+      "value": "123 Main Street\\nApt 321\\nAnywhere MA 12345"
+    }, {
+      "id": "967764ba-5012-42c6-8217-1a79ee342e76",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "812052d9-86d8-40ac-a88b-a043a7271f1f",
+    "name": "Customer Search - Full Email - Results",
+    "commands": [{
+      "id": "8f656353-8ee3-452a-b721-148f2d500e43",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c976c384-7ef3-4d61-9f32-7b78e7d9cc11",
+      "comment": "",
+      "command": "type",
+      "target": "id=Search_Email",
+      "targets": [
+        ["id=Search_Name", "id"],
+        ["name=Search.Name", "name"],
+        ["css=#Search_Name", "css:finder"],
+        ["xpath=//input[@id='Search_Name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "test.customer@example.com"
+    }, {
+      "id": "4be689d6-deff-4bd5-b57f-dda69e4cf411",
+      "comment": "",
+      "command": "click",
+      "target": "css=input[type=submit]",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Search']", "xpath:attributes"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a7dbf9ec-9fc1-49fe-ae35-987b39d36bd7",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=table",
+      "targets": [
+        ["css=.align-middle:nth-child(1)", "css:finder"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Test Customer')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d6ed06e8-4d4f-4cbb-82dc-dfe55b9ef776",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(1)",
+      "targets": [
+        ["css=.align-middle:nth-child(1)", "css:finder"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Test Customer')]", "xpath:innerText"]
+      ],
+      "value": "Test Customer"
+    }, {
+      "id": "78a9e5fb-46f4-4f80-a741-01ecd53beea6",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(2)",
+      "targets": [
+        ["css=.align-middle:nth-child(2)", "css:finder"],
+        ["xpath=//td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'test.customer@example.com')]", "xpath:innerText"]
+      ],
+      "value": "test.customer@example.com"
+    }, {
+      "id": "aec0a8a0-4f49-48b8-a802-0ece28da318c",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(3)",
+      "targets": [
+        ["css=.align-middle:nth-child(3)", "css:finder"],
+        ["xpath=//td[3]", "xpath:position"]
+      ],
+      "value": "(123) 123-1234 x1234"
+    }, {
+      "id": "d88f62e0-79ea-496b-9eb2-c6de25d6df56",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(4)",
+      "targets": [
+        ["css=.align-middle:nth-child(4)", "css:finder"],
+        ["xpath=//td[4]", "xpath:position"]
+      ],
+      "value": "123 Main Street\\nApt 321\\nAnywhere MA 12345"
+    }, {
+      "id": "3625737b-0086-41a7-9552-e7dd0504af94",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "9a14b455-b918-43f3-bec9-abd1dba2771c",
+    "name": "Customer Search - Query String - Results",
+    "commands": [{
+      "id": "d54a548b-0e2d-4749-942d-29ab3110d259",
+      "comment": "",
+      "command": "open",
+      "target": "/?Search.Name=Test+Customer",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5584d85b-6fff-462c-9661-c5f1abf3dc3c",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=table",
+      "targets": [
+        ["css=.align-middle:nth-child(1)", "css:finder"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Test Customer')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9406c4e1-3317-4502-9614-bc89ada984dc",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(1)",
+      "targets": [
+        ["css=.align-middle:nth-child(1)", "css:finder"],
+        ["xpath=//td", "xpath:position"],
+        ["xpath=//td[contains(.,'Test Customer')]", "xpath:innerText"]
+      ],
+      "value": "Test Customer"
+    }, {
+      "id": "a12633f0-0335-4187-8891-49e3cea7a179",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(2)",
+      "targets": [
+        ["css=.align-middle:nth-child(2)", "css:finder"],
+        ["xpath=//td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'test.customer@example.com')]", "xpath:innerText"]
+      ],
+      "value": "test.customer@example.com"
+    }, {
+      "id": "c679ade8-0e47-42fd-a6eb-d01dafc01894",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(3)",
+      "targets": [
+        ["css=.align-middle:nth-child(3)", "css:finder"],
+        ["xpath=//td[3]", "xpath:position"]
+      ],
+      "value": "(123) 123-1234 x1234"
+    }, {
+      "id": "39402854-cc69-402f-8a36-333800a1fb6d",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=table tbody tr td:nth-child(4)",
+      "targets": [
+        ["css=.align-middle:nth-child(4)", "css:finder"],
+        ["xpath=//td[4]", "xpath:position"]
+      ],
+      "value": "123 Main Street\\nApt 321\\nAnywhere MA 12345"
+    }, {
+      "id": "3c0f8435-fbcc-47c5-991a-02a95bd608cd",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "071a3b8e-7ab0-42df-9570-b67716d53db2",
+    "name": "Add Customer - Full Data - Success",
+    "commands": [{
+      "id": "186d1cc1-bfa7-4896-9114-f7a18d7ab974",
+      "comment": "",
+      "command": "open",
+      "target": "/Customer/Add",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "31841818-81f9-4072-b3b1-3239a4505620",
+      "comment": "",
+      "command": "type",
+      "target": "id=Customer_Name",
+      "targets": [
+        ["id=Customer_Name", "id"],
+        ["name=Customer.Name", "name"],
+        ["css=#Customer_Name", "css:finder"],
+        ["xpath=//input[@id='Customer_Name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Selenium Test"
+    }, {
+      "id": "b94570b7-bc59-4cf3-af9a-0feac5dea9c8",
+      "comment": "",
+      "command": "type",
+      "target": "id=Customer_Email",
+      "targets": [
+        ["id=Customer_Email", "id"],
+        ["name=Customer.Email", "name"],
+        ["css=#Customer_Email", "css:finder"],
+        ["xpath=//input[@id='Customer_Email']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "selenium@test.com"
+    }, {
+      "id": "15854bd1-ce0d-4dfc-8598-cbc9a965bc24",
+      "comment": "",
+      "command": "type",
+      "target": "id=Customer_Phone_Number",
+      "targets": [
+        ["id=Customer_Phone_Number", "id"],
+        ["name=Customer.Phone.Number", "name"],
+        ["css=#Customer_Phone_Number", "css:finder"],
+        ["xpath=//input[@id='Customer_Phone_Number']", "xpath:attributes"],
+        ["xpath=//fieldset/div/div/input", "xpath:position"]
+      ],
+      "value": "123-123-1234"
+    }, {
+      "id": "0c4e7f3a-45c2-4869-91df-9522c87d2d39",
+      "comment": "",
+      "command": "type",
+      "target": "id=Customer_Phone_Extension",
+      "targets": [
+        ["id=Customer_Phone_Extension", "id"],
+        ["name=Customer.Phone.Extension", "name"],
+        ["css=#Customer_Phone_Extension", "css:finder"],
+        ["xpath=//input[@id='Customer_Phone_Extension']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "1234"
+    }, {
+      "id": "96f8170f-b4d8-4a35-b55d-a1c15a60eb28",
+      "comment": "",
+      "command": "type",
+      "target": "id=Customer_Address_Line1",
+      "targets": [
+        ["id=Customer_Address_Line1", "id"],
+        ["name=Customer.Address.Line1", "name"],
+        ["css=#Customer_Address_Line1", "css:finder"],
+        ["xpath=//input[@id='Customer_Address_Line1']", "xpath:attributes"],
+        ["xpath=//div/div/div/input", "xpath:position"]
+      ],
+      "value": "123 Main Street"
+    }, {
+      "id": "a93d9230-e589-408c-b12a-9b37d3bf0cfb",
+      "comment": "",
+      "command": "type",
+      "target": "id=Customer_Address_Line2",
+      "targets": [
+        ["id=Customer_Address_Line2", "id"],
+        ["name=Customer.Address.Line2", "name"],
+        ["css=#Customer_Address_Line2", "css:finder"],
+        ["xpath=//input[@id='Customer_Address_Line2']", "xpath:attributes"],
+        ["xpath=//div/div/div[2]/input", "xpath:position"]
+      ],
+      "value": "Ste 321"
+    }, {
+      "id": "532cf031-5e8c-4ef2-8f32-df9163154122",
+      "comment": "",
+      "command": "type",
+      "target": "id=Customer_Address_City",
+      "targets": [
+        ["id=Customer_Address_City", "id"],
+        ["name=Customer.Address.City", "name"],
+        ["css=#Customer_Address_City", "css:finder"],
+        ["xpath=//input[@id='Customer_Address_City']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": "Somewhere"
+    }, {
+      "id": "13ec630e-f2c1-4742-9653-2dde452239a0",
+      "comment": "",
+      "command": "select",
+      "target": "id=Customer_Address_State",
+      "targets": [],
+      "value": "label=California"
+    }, {
+      "id": "169708a1-974b-486a-a3ed-6cd1e330c2b4",
+      "comment": "",
+      "command": "type",
+      "target": "id=Customer_Address_PostalCode",
+      "targets": [
+        ["id=Customer_Address_PostalCode", "id"],
+        ["name=Customer.Address.PostalCode", "name"],
+        ["css=#Customer_Address_PostalCode", "css:finder"],
+        ["xpath=//input[@id='Customer_Address_PostalCode']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "12345"
+    }, {
+      "id": "7604e832-c90d-41cd-b1f5-2436ffdf4e7a",
+      "comment": "",
+      "command": "click",
+      "target": "css=input[type=submit]",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Submit']", "xpath:attributes"],
+        ["xpath=//form/div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "990d9727-1b34-4a3f-b63a-f97cf0ba720a",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.alert",
+      "targets": [
+        ["css=.alert", "css:finder"],
+        ["xpath=//main/div", "xpath:position"]
+      ],
+      "value": "Customer added successfully."
+    }, {
+      "id": "04ed4d14-d0f0-47b3-89b0-c08c36da5814",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add Customer",
+      "targets": [
+        ["linkText=Add Customer", "linkText"],
+        ["css=.nav-item:nth-child(2) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Add Customer')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Customer/Add')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add Customer')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2a650952-251b-43c3-92d6-487dfb8f7f8a",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "baecaca3-b7fd-4945-849d-95356b6480d0",
+    "name": "Add Customer - No Data - Failure",
+    "commands": [{
+      "id": "babc4527-757f-454e-8fce-a32e2c907f70",
+      "comment": "",
+      "command": "open",
+      "target": "/Customer/Add",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f6d5e3ee-599e-4936-9963-942576a087b8",
+      "comment": "",
+      "command": "click",
+      "target": "css=input[type=submit]",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Submit']", "xpath:attributes"],
+        ["xpath=//form/div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a753d71d-d44f-44d2-a82d-685e316be516",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=.validation-summary-errors",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ce68cf6c-14e2-4277-8524-1ebd56b12676",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.validation-summary-errors li",
+      "targets": [
+        ["css=.alert", "css:finder"],
+        ["xpath=//main/div", "xpath:position"]
+      ],
+      "value": "Name, Email, or Phone Number must be given."
+    }, {
+      "id": "3d969931-2e64-4ed9-81c4-1e82e7544893",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "99519786-a829-4ad4-9eb5-aca86a2dc84a",
+    "name": "Add Customer - Load - States Populated",
+    "commands": [{
+      "id": "d60fc481-6329-4ac2-8699-5fe146eca3e0",
+      "comment": "",
+      "command": "open",
+      "target": "/Customer/Add",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e1a740d5-a817-44e8-9100-47b272c242f3",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add Customer",
+      "targets": [
+        ["linkText=Add Customer", "linkText"],
+        ["css=.nav-item:nth-child(2) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Add Customer')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/Customer/Add')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Add Customer')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b5c2ad56-51c3-4ee6-95e4-4a498d01b6bf",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=select#Customer_Address_State option[value=AL]",
+      "targets": [
+        ["id=Customer_Address_State", "id"],
+        ["name=Customer.Address.State", "name"],
+        ["css=#Customer_Address_State", "css:finder"],
+        ["xpath=//select[@id='Customer_Address_State']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"],
+        ["xpath=//select[contains(.,'-Select-\nAlabama\nAlaska\nArizona\nArkansas\nCalifornia\nColorado\nConnecticut\nDelaware\nFlorida\nGeorgia\nHawaii\nIdaho\nIllinois\nIndiana\nIowa\nKansas\nKentucky\nLouisiana\nMaine\nMaryland\nMassachusetts\nMichigan\nMinnesota\nMississippi\nMissouri\nMontana\nNorth Carolina\nNorth Dakota\nNebraska\nNevada\nNew Hampshire\nNew Jersey\nNew Mexico\nNew York\nOhio\nOklahoma\nOregon\nPennsylvania\nRhode Island\nSouth Carolina\nSouth Dakota\nTennessee\nTexas\nUtah\nVermont\nVirginia\nWashington\nWest Virginia\nWisconsin\nWyoming')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "84b0c39f-aa57-4808-9552-5fcdee4bc6ea",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "fceed6a8-aca6-4249-9830-0f3dc7368cbe",
+    "name": "Add Customer - Reload Error - States Populated",
+    "commands": [{
+      "id": "3644b872-ae92-49db-8236-d134e81a7a50",
+      "comment": "",
+      "command": "open",
+      "target": "/Customer/Add",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "327da590-5d71-4ac2-af9e-a3d6abd8d373",
+      "comment": "",
+      "command": "click",
+      "target": "css=input[type=submit]",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//input[@value='Submit']", "xpath:attributes"],
+        ["xpath=//form/div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b717ec25-525e-4435-8c9c-42600aaa9850",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "css=select#Customer_Address_State option[value=AL]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "77eb759b-209f-4b23-9942-73e9740d2e05",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "f3ee0384-e705-46af-9690-bd939a0d6181",
+    "name": "Navigate - MiniCrm",
+    "commands": [{
+      "id": "f743f031-676c-4ed9-bc3c-f959e61204d9",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "40d6d830-633f-4c3d-8a45-04175e34598f",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=MiniCrm",
+      "targets": [
+        ["linkText=MiniCrm", "linkText"],
+        ["css=.navbar-brand", "css:finder"],
+        ["xpath=//a[contains(text(),'MiniCrm')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'MiniCrm')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c49beaaa-fb96-49d5-9495-f947977ad4fc",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Search Customers')]", "xpath:innerText"]
+      ],
+      "value": "Search Customers"
+    }, {
+      "id": "e4bbf2b2-8a55-4d48-87f7-45ef88681649",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "2beb9a5e-3d29-4f69-ae0a-da54086b007c",
+    "name": "Navigate - Search",
+    "commands": [{
+      "id": "f6b1338e-8264-46ea-bae4-6f147f072c84",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fe3dfafa-85ba-4132-a8b6-150b444aade3",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Search",
+      "targets": [
+        ["linkText=MiniCrm", "linkText"],
+        ["css=.navbar-brand", "css:finder"],
+        ["xpath=//a[contains(text(),'MiniCrm')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'MiniCrm')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2ee8513b-114b-462c-9c9d-787c8a0a8760",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Search Customers')]", "xpath:innerText"]
+      ],
+      "value": "Search Customers"
+    }, {
+      "id": "24298b34-6cbe-435e-8f62-8c9a7d7587be",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "98eae5c8-b0f1-4e3d-a37d-98953dddf2ca",
+    "name": "Navigate - Add Customer",
+    "commands": [{
+      "id": "241a6cee-d56e-4909-b023-1bbb3dbb7101",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f2c99951-31d9-48cc-a2ab-af8e37a831ac",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Add Customer",
+      "targets": [
+        ["linkText=MiniCrm", "linkText"],
+        ["css=.navbar-brand", "css:finder"],
+        ["xpath=//a[contains(text(),'MiniCrm')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'MiniCrm')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "426b326e-eabc-442f-bfa0-55f86c8910fd",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=h1",
+      "targets": [
+        ["css=h1", "css:finder"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Search Customers')]", "xpath:innerText"]
+      ],
+      "value": "Add Customer"
+    }, {
+      "id": "6c2eb319-1414-4741-aa85-b087438eb112",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "5812503b-02db-476e-bba1-03c41d7e66ac",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:59778/"],
+  "plugins": []
+}

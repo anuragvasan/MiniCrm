@@ -17,6 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9F1E4615-D406-4278-AFE6-5A122F03D126}"
+	ProjectSection(SolutionItems) = preProject
+		Tests\MiniCrm.side = Tests\MiniCrm.side
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniCrm.Application.Tests", "Tests\MiniCrm.Application.Tests\MiniCrm.Application.Tests.csproj", "{24A8FDC2-0F6D-4AC9-AD90-67E4FD7C33B2}"
 EndProject
