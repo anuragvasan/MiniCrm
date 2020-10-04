@@ -50,13 +50,14 @@ namespace MiniCrm.Web.Filters
             var modelType = model.GetType();
 
             var initializerType = typeof(IModelInitializer<>).MakeGenericType(modelType);
+
             var initializer = context.HttpContext.RequestServices.GetService(initializerType);
 
             if (initializer == null)
             {
                 throw new Exception($"IModelInitializer<{modelType.FullName}> is not registered but is referenced on {descriptor.ControllerTypeInfo.FullName}.{descriptor.MethodInfo.Name}.");
             }
-
+            
             var method = initializerType.GetMethod(nameof(IModelInitializer<object>.InitializeAsync));
             var task = (Task)method.Invoke(initializer, new[] { model, context.HttpContext.RequestAborted });
             await task;
