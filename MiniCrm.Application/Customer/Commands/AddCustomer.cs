@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MiniCrm.Application.Common;
 using MiniCrm.Application.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace MiniCrm.Application.Customer.Commands
     /// <summary>
     /// A command to add a customer to the CRM.
     /// </summary>
-    public class AddCustomer : IRequest
+    public class AddCustomer : IRequest, IAuditableRequest
     {
         public string Name { get; set; }
         public string Email { get; set; }
