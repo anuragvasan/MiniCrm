@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MiniCrm.Application.Location.Queries;
-using MiniCrm.Web.Models.Customer;
+using MiniCrm.Web.ViewModels.Customer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +15,16 @@ namespace MiniCrm.Web.ModelInitializer
     /// </summary>
     public class AddCustomerModelInitializer : IModelInitializer<AddCustomerModel>
     {
-        private readonly IRequestHandler<GetStates, IEnumerable<GetStates.State>> stateHandler;
+        private readonly IMediator mediator;
 
-        public AddCustomerModelInitializer(IRequestHandler<GetStates, IEnumerable<GetStates.State>> stateHandler)
+        public AddCustomerModelInitializer(IMediator mediator)
         {
-            this.stateHandler = stateHandler;
+            this.mediator = mediator;
         }
 
         public async Task InitializeAsync(AddCustomerModel model, CancellationToken cancellationToken)
         {
-            var states = await stateHandler.Handle(new GetStates(), cancellationToken);
+            var states = await mediator.Send(new GetStates(), cancellationToken);
 
             model.States = new[] {
                 new SelectListItem("-Select-", "")

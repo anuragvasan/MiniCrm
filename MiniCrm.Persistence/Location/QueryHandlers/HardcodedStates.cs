@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static MiniCrm.Application.Location.Queries.GetStates;
 
-namespace MiniCrm.Application.Location.QueryHandlers
+namespace MiniCrm.Persistence.Location.QueryHandlers
 {
     /// <summary>
     /// Basic hard-coded implementation of the GetStates query.
