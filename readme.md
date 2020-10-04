@@ -27,11 +27,13 @@ Requests to add customers are audited (logged) into the standard .NET core loggi
 
 MiniCrm enables searching existing customers by either Name or Email Address.  Partial matches enable the user to search for only a first or last name, or part of an email address, even when MiniCrm has the full information stored.
 
+Searches can be initiated either via the form or through query string parameters, eg http://localhost:59778?search.name=customer
+
 ## Development Setup & Process
 
 - Install .NET Core SDK + CLI: https://dotnet.microsoft.com/download/dotnet-core/3.1
 - Install Entity Framework CLI tools: `dotnet tool install --global dotnet-ef`
-- Install or allocate a SQL Server instance.  Default: `Server=(localdb)\mssqllocaldb;Database=MiniCrm`
+- Install or reference a SQL Server instance.  Default: `Server=(localdb)\mssqllocaldb;Database=MiniCrm`
 - Install Selenium IDE: https://chrome.google.com/webstore/detail/selenium-ide/mooikfkahbdckldjjndioackbalphokd?hl=en
 
 ### Running the Application
@@ -82,16 +84,16 @@ MiniCrm enables searching existing customers by either Name or Email Address.  P
 
 ## Technology Overview
 
-- **ASP.NET Core MVC** - Provides a modern server-side web application framework with strong HTML templating via Razor, extensibility (eg action filters), and the underlying .NET ecosytem.
+- **ASP.NET Core MVC** - Provides a modern server-side web application framework with strong HTML templating via Razor, extensibility (eg action filters), and the underlying .NET ecosystem.
 - **Entity Framework Core** - Provides a lot of quick-start value for the SQL database and can be optimized sufficiently for most use cases.  Code First and Migrations provide a relatively simple and effective schema declaration and update mechanism without involving external tools (MS SQL Projects, RedGate SQL Source Control, etc.)
 - **MediatR** - Used to implement the CQS pattern in the application logic layer, providing a clear set of expected inputs and outputs, and flexibility/decoupling in logic execution.  Enables implementing cross-cutting concerns like logging/auditing via `IPipelineBehavior`.
 - **AutoMapper** - Enables mapping between objects in different application layers, providing better separation between application concerns (eg logic and persistence.)
-- **FluentValidation** - Provides powerful server-side validation (including outside of a direct web context), and hooks for ASP.NET MVC's standard client-side validation.  Capable of far more complex validations than DataAnnotations provides out of the box.
-- **Boostrap 4** - A convienient quick-start UI framework for the responsive web.
+- **FluentValidation** - Provides powerful server-side validation (including outside of a web context), and hooks for ASP.NET MVC's standard client-side validation.  Capable of far more complex validations than DataAnnotations provides out of the box.
+- **Boostrap 4** - A convenient quick-start UI framework for the responsive web.
 
 ## Code Architecture
 
-The application code consists of several .NET projects, each encapsulating an area of reponsibility.
+The application code consists of several .NET projects, each encapsulating an area of responsibility.
 
 - **MiniCrm.Web** - ASP.NET Core MVC application providing a traditional web presentation layer using Razor views and Bootstrap 4 for responsive styling.  Provides startup logic (eg runtime configuration, DI bindings) for the application as a whole.
 - **MiniCrm.Application** - The core application logic layer, intended to be presentation-layer agnostic.  A basic Command-Query Separation (CQS) approach is used, consisting of Query and Command objects (read and write, respectively) to represent application inputs.
@@ -100,17 +102,17 @@ The application code consists of several .NET projects, each encapsulating an ar
 
 ### Design Decisions
 
-- **MiniCrm.Web** provides the presentation layer exposing the features offered by the other proejcts.  Additionally, it provides all of the dependency injection configuration that enables those projects to work together.
+- **MiniCrm.Web** provides the presentation layer exposing the features offered by the other projects.  Additionally, it provides all of the dependency injection configuration that enables those projects to work together.
   - Several customizations have been implemented  to reduce code duplication in the controllers:
     - **FluentValidation's ASP.NET integration**, which automatically validates models when a matching validator is registered in the DI container, eg `AddCustomerModelValidator`.
-    - **ModelStateValidationFilter**, which removes the need to check ModelState and return the original View (form) back to the user with valiation errors in each POST controller action.
+    - **ModelStateValidationFilter**, which removes the need to check ModelState and return the original View (form) back to the user with validation errors in each POST controller action.
     - **ModelInitializerFilter** introduces an `IModelInitializer` interface which can contain logic to populate a ViewModel.  For example, filling a list of dropdown options.  This logic typically has to be performed for both rendering the initial form (GET) and re-displaying the form when validation errors occurs (POST).  Introducing this interface and action filter removes the need for duplicated code / method calls in the GET and POST controller actions.
 - The **MiniCrm.Application** project composes the public application contract (ie what the user do with the application) and implementation of the core logic.  In this case, there is no significant "business logic" in the traditional sense (beyond validation rules), but this project would be the appropriate place for it.
   - The project is written without any ties to the web or SQL layers.  Other client layers (eg WebApi) could easily use it to expose the same functionality as the current MVC presentation layer.
   - CQS was chosen as an overall architecture for this layer because it provides a very explicit public contract.  Input and outputs are clearly documented on the Command, Query, and QueryResult classes.  Commands always accept input and return nothing (or exceptions for errors), and queries return the specified result type.
   - The MediatR library was chosen to implement the CQS pattern, using the `IRequestHandler<>` interface.  This library provides the basic types to represent commands, queries, query results, and handler classes, along with supporting infrastructure (eg running a series of handlers in sequence, cross-cutting concerns like logging, etc.)
-- **MiniCrm.DataModel** encapsulates all SQL database & EntityFramework concerns, including both defning the database schema, performing migrations, and exposing the .NET API (via EF entities and DbContext) for interacting with it.
-- **MiniCrm.Persistence** is a separate project from both Application and DataModel to communiucate clear intent and boundaries.  Application should not be concerned with system integrations and side effects outside of the core application features and logic.  DataModel handles only EF/SQL-specific persistence concerns, providing a set of features to other code that might make use of them.  
+- **MiniCrm.DataModel** encapsulates all SQL database & EntityFramework concerns, including defining the database schema, performing migrations, and exposing the .NET API (via EF entities and DbContext) for interacting with it.  This project doesn't actually _do_ anything with that capability itself - it just exposes it to MiniCrm.Persistence.
+- **MiniCrm.Persistence** is a separate project from both Application and DataModel to communicate clear intent and boundaries.  Application should not be concerned with system integrations and side effects outside of the core application features and logic.  DataModel handles only EF/SQL-specific persistence concerns, providing a set of features to other code that might make use of them.  
   - This leaves the Persistence project as the glue between them, and gives it flexibility to change as needed.  For example, if a search engine (eg Azure Search or Solr) was to be introduced, the Persistence project could implement a new CustomerSearch handler using that technology, and could perform indexing as part of adding customers.  Neither the DataModel or Application projects would need to change.
   - This project uses AutoMapper to convert between EF Entities and the Command/Query objects.  These mappings are somewhat tedious, but it is important to decouple the database data model from the application data structure so that they can change independently over time (performance optimizations, etc.)
 
@@ -120,8 +122,10 @@ The application code consists of several .NET projects, each encapsulating an ar
 
 - Server-side validation errors are not properly styled with the Bootstrap 4 UI classes.  Consider this approach: https://stackoverflow.com/a/63208680
 - "Complex" validation rules, such as requiring any of Name, Email, and Phone Number for adding a customer, are only implemented on the server.  Client-side logic could be added to improve the UX.
-- MediatR requires injecting an `IMediator` interface for invoking the RequestHandlers, which hides away more information than might be desirable.  For example, controllers simply depend on `IMediator`, rather than a specific list of `IRequestHandlers<TRequest, TResponse>`.  This makes it less clear what the exact dependencies of a controller are.  Although it is possible to take dependencies on particular RequestHandler interfaces directly (Eg `IRequestHandler<GetStates, IEnumerable<State>>`), this doesn't support PipelineBehaviors (such as the cross-cutting AuditingBehavior) and doesn't seem to be the intended way to use the library.
-- No client-side package manager or build process for Bootstrap and other front-end assets.  If the front-end UI were to be enhanced further, this would likely be beneficial.  Not really warranted for the current basic UI.
-- There exists duplication of the Customer definition across layers, and AutoMapper profiles are somewhat tedious and error-prone.  This might be improved with some centralized metadata / code-gen, or further use of AutoMapper convention techniques.  However, the value of 
-- The MVC ViewModels have properties representing the Command and Query objects, rather than exposing a clean interface with only the necessary input/output values.  This rather significantly reduces complexity (MiniCrm.Application public contract is "passed through" to/from the UI, rather than adding another set of classes and mapping back and forth.  However, this does result in some oddities such as the AddCustomerModelValidator simply delegating immediately to AddCustomerValidator.  This is required because FluentValidation's ASP.NET integration looks for a validator matching the model type.  Further, the MiniCrm.Application validators are _not_ being run as part of the actual processing pipeline (since this would duplicate what's done at the ASP.NET layer).  This would need to be re-examined if MiniCrm.Application was actually to be used by other/additional presentation layers or use cases.
 - Azure deployment is completely manual.  Introduce Azure DevOps build + release pipeline, with ARM templates.
+- Azure Active Directory for a more secure App Service to SQL connection (remove SQL Auth.)
+- Error pages (non-500).
+- No client-side package manager or build process for Bootstrap and other front-end assets.  If the front-end UI were to be enhanced further, this would likely be beneficial.  Not really warranted for the current basic UI.
+- MediatR is used by injecting an `IMediator` interface, which hides away information about which `IRequestHandlers` the class actually depends on.  Although it is possible to take dependencies on particular RequestHandler interfaces directly (Eg `IRequestHandler<GetStates, IEnumerable<State>>`), this doesn't support PipelineBehaviors (such as the cross-cutting AuditingBehavior) and doesn't seem to be the intended way to use the library.
+- There exists duplication of the Customer data definition across layers.  This might be improved with some centralized metadata / code-gen.  However, duplication is not necessarily a bad thing in case these definitions need to diverge in the future (performance optimizations, etc.)
+- The MVC ViewModels have properties representing the Command and Query objects, rather than exposing a clean interface with only the necessary input/output values on the model directly.  (MiniCrm.Application public contract is "passed through" to/from the UI, rather than adding another set of classes and mapping back and forth.)  This significantly reduces complexity that would otherwise be needed - more duplication and mapping logic.  However, this does result in some oddities such as the AddCustomerModelValidator simply delegating immediately to AddCustomerValidator.  This is required because FluentValidation's ASP.NET integration looks for a validator matching the model type.  Further, the MiniCrm.Application validators are _not_ being run as part of the actual MediatR processing pipeline (since this would duplicate what's done at the ASP.NET layer).  This would need to be re-examined if MiniCrm.Application was actually to be used by other/additional presentation layers or use cases.
